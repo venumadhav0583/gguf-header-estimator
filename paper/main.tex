@@ -1,0 +1,191 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+% Numbers from the filled-context experiment (E2). Filled by analysis/final_numbers.py.
+\input{e2numbers}
+
+\begin{document}
+
+\title{A Header-Only, Attention-Aware Memory Estimator\\for GGUF-Quantized LLMs on Edge Devices}
+
+\author{\IEEEauthorblockN{Venumadhav Kalluru}
+\IEEEauthorblockA{Independent Researcher\\
+Cumming, GA, USA\\
+greenkal2026@gmail.com\\
+ORCID: 0009-0006-8250-9899}}
+
+\maketitle
+
+\begin{abstract}
+People who run quantized language models locally often discover that a checkpoint does not fit only after downloading several gigabytes of weights. We ask how much of that answer the GGUF header can give for llama.cpp on a CPU host. The estimator reads only the architecture fields, which end within the first 1.3\,KB of each tested file, and adds three terms: weight bytes from the file size, a key--value (KV) cache sized from the effective KV-head count, the stored key and value head widths and the block size of the cache type, and a runtime constant calibrated once per backend. On 36 configurations of six Q4\_K\_M models (0.5--3.8\,B parameters), the mean absolute percentage error (MAPE) is 2.25\% under leave-one-model-out calibration, and no configuration is under-predicted by more than 3.5\%. Using total instead of KV heads raises MAPE to 31\% on the grouped-query models. A second run that fills the context shows that peak memory at 8K tokens exceeds the short-prompt peak by up to \FilledMaxIncrease\%, because the attention buffers become resident. An attention-workspace term derived from the same header brings the filled-context error to \FilledMAPE\%. GPUStack's gguf-parser, run on the same grid, over-predicts by 63\% on average. All measurements are CPU-only.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Edge AI, on-device LLMs, GGUF, memory estimation, KV cache, grouped-query attention, llama.cpp
+\end{IEEEkeywords}
+
+\section{Introduction}
+Quantized language models now run on laptops and small edge servers through llama.cpp~\cite{llamacpp} and the tools built on it, nearly all of which load the GGUF container format~\cite{ggufspec}. A user choosing a checkpoint for a device with 8\,GB of memory has to decide whether it fits at the intended context length. The runtime reports its allocations, but only after the file is on disk. On a 100\,Mbps link a 20\,GB checkpoint takes about half an hour to arrive.
+
+The GGUF header already holds the quantities that set most of the memory budget: tensor sizes through the file length, and the attention geometry that sizes the KV cache. The question this paper answers is empirical. How accurate is a header-only estimate against measured peak resident memory, which of its terms matter, and where does it fail? Header-only inspection is not new. GPUStack's gguf-parser~\cite{ggufparser} and the \texttt{@huggingface/gguf} library~\cite{hfgguf} both read remote GGUF metadata without downloading weights, and gguf-parser also estimates llama.cpp memory. Our contribution is the measured account that, to our knowledge, these tools have not published:
+\begin{enumerate}
+\item An additive estimator whose KV term uses the stored head widths, the cache type's block size and, for Gemma-2, the windowed layers. Its predicted KV cache matches llama.cpp's own allocation log in all 18 configurations we checked (\S\ref{sec:method}).
+\item Out-of-sample accuracy on 36 configurations with leave-one-model-out (LOMO) calibration, a worst-case under-prediction and the safety margin it implies, an ablation, and a direct comparison with gguf-parser (\S\ref{sec:e1}).
+\item A filled-context and memory-mapping replication. It shows that the short-prompt protocol of our submitted version understated peak memory at long context, and it supplies a header-derived correction (\S\ref{sec:e2}).
+\end{enumerate}
+
+\section{Related Work}
+\label{sec:related}
+Weight quantization (GPTQ~\cite{gptq}, AWQ~\cite{awq}) sets the file size, which is the largest term at short context. At long context the KV cache dominates, and grouped-query attention (GQA)~\cite{gqa} and multi-query attention (MQA)~\cite{mqa} shrink it by the ratio of query heads to KV heads. Gemma-2 alternates full and sliding-window attention layers~\cite{gemma2}, so part of its cache stops growing with context. PagedAttention~\cite{vllm} manages the cache dynamically for batched serving, which we do not model.
+
+Memory calculators fall into three groups. The Hugging Face model memory calculator~\cite{hfcalc} multiplies parameter count by bytes per parameter and has no KV term. llama.cpp prints exact allocations once a model is loaded. gguf-parser~\cite{ggufparser} reads a remote header, accounts for KV heads, cache types and batch sizes, and reports RAM and VRAM estimates with many runtime options. The \texttt{@huggingface/gguf} library~\cite{hfgguf} parses remote metadata but does not estimate memory. We therefore do not claim a capability these tools lack. We compare against gguf-parser directly in \S\ref{sec:e1} and report how close a minimal, calibrated form comes to measured peaks.
+
+\section{Estimator}
+\label{sec:method}
+\subsection{Memory decomposition}
+For one sequence on one backend we write peak resident memory as
+\begin{equation}
+M = M_{\mathrm{w}} + M_{\mathrm{KV}}(C) + M_{\mathrm{rt}} + M_{\mathrm{att}}(C),
+\label{eq:decomp}
+\end{equation}
+where $C$ is the context length in tokens. $M_{\mathrm{w}}$ is the sum of file sizes over all shards, obtained from HTTP HEAD requests. With \texttt{--no-mmap}, llama.cpp copies the tensor data into memory, so this term is close to exact.
+
+The KV term counts the cells allocated in each layer:
+\begin{equation}
+M_{\mathrm{KV}}(C) = b(q)\, n_{\mathrm{kv}}\, (d_k + d_v) \sum_{\ell=1}^{L} c_\ell(C).
+\label{eq:kv}
+\end{equation}
+Here $n_{\mathrm{kv}}$ is the \texttt{head\_count\_kv} field (equal to the query-head count for multi-head attention and 1 for MQA). $d_k$ and $d_v$ come from \texttt{key\_length} and \texttt{value\_length} when present, and from $d_{\mathrm{model}}/n_{\mathrm{heads}}$ otherwise. The distinction matters for Gemma-2-2B, whose head width is 256, not $2304/8 = 288$. The factor $b(q)$ is the storage cost per element of cache type $q$, including the block scale: 2 bytes for FP16, $34/32 = 1.0625$ for Q8\_0, $22/32$ for Q5\_0 and $18/32$ for Q4\_0. Ordinary layers hold $c_\ell = C$ cells. Gemma-2's windowed layers (every second layer, window $W = 4096$ read from \texttt{sliding\_window}) hold $\min(C, W + u)$ cells in llama.cpp, where $u = 512$ is the physical batch size. The alternating pattern is architecture knowledge keyed on \texttt{general.architecture}; it is not stored in the header.
+
+The runtime term $M_{\mathrm{rt}} = \alpha P + \beta$ absorbs the process image, buffers and allocator slack. We fit $\alpha$ and $\beta$ by least squares on measurements from the target backend. On our CPU host the fitted $\alpha$ is 0.004\,GiB per billion parameters, so the term is effectively the constant $\beta \approx 0.078$\,GiB. The parameter count $P$ was absent from all six headers, so we derive it from the file size at 4.65 bits per weight; through $\alpha$ it affects predictions by under 0.02\,GiB.
+
+The last term appears only when the context is actually filled (\S\ref{sec:e2}). Without flash attention, llama.cpp materializes a 32-bit score matrix of $n_{\mathrm{heads}} \times C \times u$ entries for each batch, and we model its resident share as
+\begin{equation}
+M_{\mathrm{att}}(C) = \gamma \cdot 4\, u\, n_{\mathrm{heads}}\, C,
+\label{eq:att}
+\end{equation}
+with $\gamma$ calibrated like $\beta$. A short prompt leaves most of this buffer untouched, so $M_{\mathrm{att}} = 0$ in that regime.
+
+\textit{Worked example.} For Qwen2-1.5B with an FP16 cache at $C = 8192$: $M_{\mathrm{w}} = 0.918$\,GiB; Eq.~\eqref{eq:kv} gives $2 \cdot 2 \cdot 256 \cdot 28 \cdot 8192$ bytes $= 0.219$\,GiB; $M_{\mathrm{rt}} = 0.085$\,GiB. The estimate of 1.222\,GiB compares with 1.233\,GiB measured under a short prompt. With a filled context, Experiment~2's coefficients give $M_{\mathrm{att}} = \GammaIn \times 0.1875 = \AttQwen$\,GiB and $\beta = \BetaIn$\,GiB, for a prediction of \QwenFilledPred\,GiB against \QwenFilledMeas\,GiB measured.
+
+\subsection{What the header read retrieves}
+The submitted version requested a fixed 256\,KB range and stated that it held the whole metadata block. That statement was wrong. We parsed every byte of the six files. The full key--value metadata ends between 0.73\,MB (Phi-3) and 7.8\,MB (LLaMA-3.2) into the file, mostly because of tokenizer arrays, so every 256\,KB request was cut off inside those arrays. The estimator never needs them. In all six files the fields it uses (block count, head counts, head widths, embedding width, sliding window) end within the first 993 bytes, and the length prefix of the token array, which gives the vocabulary size, ends by byte 1{,}236. The parser therefore issues a 4\,KB range request and parses keys in order. If a required key is still missing at the end of the buffer, it doubles the range and continues. It skips array bodies by their declared length and stops once every required field has been read. Sharded checkpoints add one HEAD request per shard. Run against the six files hosted on Hugging Face, the parser needed one 4\,KB request per model (0.2--0.5\,s each), against 0.37--2.23\,GiB of weights.
+
+\section{Experiment 1: Accuracy on the Submitted Grid}
+\label{sec:e1}
+\subsection{Setup}
+The host has two vCPUs (Intel Xeon, 2.9\,GHz), 8\,GB of RAM and no GPU. It runs Linux 6.x and a CPU-only llama.cpp build (\texttt{b1-050dde5}). We used six Q4\_K\_M checkpoints with query-to-KV head ratios from 1 to 8: Qwen2-0.5B and Qwen2-1.5B, TinyLlama-1.1B, LLaMA-3.2-1B, Gemma-2-2B and Phi-3-mini (multi-head). Each model ran with FP16 and Q8\_0 caches at $C \in \{512, 2048, 8192\}$, giving 36 configurations, with a 200-token prompt, 32 generated tokens, \texttt{--no-mmap} and three trials. Peak memory is the largest \texttt{VmRSS} of the process tree, sampled every 100\,ms. Across trials its standard deviation stayed below 0.001\,GiB. Memory is reported in GiB ($2^{30}$ bytes). The submitted version labeled these figures GB.
+
+\subsection{Accuracy, calibration and baselines}
+Table~\ref{tab:acc} separates in-sample from LOMO results. In the LOMO rows, $\alpha$ and $\beta$ are fitted on five models and tested on the sixth. Two confidence intervals are given: a configuration bootstrap and a cluster bootstrap that resamples whole models, since configurations of one model are not independent. The submitted estimator ($d_{\mathrm{model}}/n_{\mathrm{heads}}$, one byte per Q8\_0 element, no window) degrades from 2.05\% in sample to 2.77\% under LOMO. With the corrections of \S\ref{sec:method}, LOMO MAPE is 2.25\%. Per-model LOMO MAPE ranges from 1.03\% (Gemma-2) to 5.79\% (TinyLlama).
+
+\begin{table}[t]
+\centering
+\caption{Peak-memory error on the 36-configuration grid (E1). CI: 95\% bootstrap over configurations / over models.}
+\label{tab:acc}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Estimator & MAPE (\%) [CI] & Worst under & Max APE \\
+\midrule
+Submitted, in-sample & 2.05 & $-4.1\%$ & 10.4\% \\
+Submitted, LOMO & 2.77 [2.1--3.5 / 1.6--3.8] & $-4.9\%$ & 11.1\% \\
+Corrected, in-sample & 1.58 [1.1--2.1] & $-2.8\%$ & 5.4\% \\
+\textbf{Corrected, LOMO} & \textbf{2.25} [1.7--2.9 / 1.1--3.8] & $\mathbf{-3.5\%}$ & 6.9\% \\
+\midrule
+gguf-parser, \texttt{--no-mmap} & 63.3 [49--78] & $+2.1\%$ & 153\% \\
+gguf-parser, mmap & 45.3 [40--52] & $-87.7\%$ & 88\% \\
+Weights only (file size) & 19.2 [16--23] & $-58.0\%$ & 58\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We ran gguf-parser v0.26.4 offline on the same files with matched settings: zero GPU layers, the same cache types and context lengths, flash attention off, and its default batch sizes and platform footprint. With \texttt{--no-mmap} it never under-predicted, but it over-predicted by 63\% on average and by up to 153\% on the smallest models. For a fit/no-fit decision on a constrained device, that error is large enough to turn away models that would run. With mmap it under-predicted 30 of 36 configurations, because our measurement copies the weights into memory. gguf-parser is built to cover many backends and deployment options, so a single matched setting is a narrow test of it. Still, on this host a two-constant calibration was an order of magnitude closer.
+
+\textit{Decision margin.} We swept device budgets from 0.40 to 6.00\,GiB in 0.01\,GiB steps over all 36 LOMO predictions (20{,}160 budget--configuration pairs). Without a margin the estimator wrongly reports a fit in 37 pairs (0.18\%). With a 4\% margin, which exceeds the worst under-prediction, it makes no false fit, and 98.9\% of all decisions are correct. The remaining errors are conservative rejections close to the budget.
+
+\subsection{Ablation and KV-term checks}
+Table~\ref{tab:abl} removes one term at a time from the corrected estimator. The effective KV-head count carries the most weight. Replacing $n_{\mathrm{kv}}$ with $n_{\mathrm{heads}}$ raises MAPE from 1.58\% to 31.2\% on the 30 GQA configurations, and to 67.6\% on the ten at $C = 8192$, where the cache is largest. The submitted version also reported an $F$-test against a parameters-only baseline. That test was not valid, because the baseline is not nested in the estimator, and we have removed it.
+
+\begin{table}[t]
+\centering
+\caption{Ablation of the corrected estimator (E1, in-sample coefficients).}
+\label{tab:abl}
+\footnotesize
+\begin{tabular}{@{}lc@{}}
+\toprule
+Variant & MAPE (\%) \\
+\midrule
+Corrected estimator, all 36 & 1.58 \\
+\quad without $M_{\mathrm{rt}}$ ($\alpha = \beta = 0$) & 8.61 \\
+\quad cache always FP16 & 4.52 \\
+\quad $n_{\mathrm{heads}}$ in place of $n_{\mathrm{kv}}$ (30 GQA configs) & 31.16 \\
+\quad\quad same, $C = 8192$ only (10 configs) & 67.63 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The measured growth of memory per token from $C = 512$ to $8192$ (FP16) is between 1.00 and 1.07 times the prediction of Eq.~\eqref{eq:kv} for all six models. The two largest ratios, 1.07 for TinyLlama and 1.04 for LLaMA-3.2, fit a compute buffer that grows slowly with context, which $M_{\mathrm{rt}}$ does not model. For Gemma-2 the ratio was 0.70 in the submitted version and is 1.03 with the true head width and the window rule. Switching from FP16 to Q8\_0 at $C = 8192$ saved between 0.99 and 1.01 times the predicted bytes for all six models.
+
+\section{Experiment 2: Filled Context and Memory Mapping}
+\label{sec:e2}
+Reviewers pointed out that a 200-token prompt measures the memory reserved for a context, not the peak when that context is full, and that real deployments usually keep llama.cpp's default memory-mapped loading. We repeated the measurements on the same host class with a current llama.cpp build (\texttt{339f324}, October 2026) and logged its own weight, KV and compute-buffer sizes. This build requires flash attention for a quantized V cache, so Experiment~2 uses FP16 caches with flash attention off.
+
+\textit{Replication.} Rerunning the short-prompt grid (18 configurations) reproduced Experiment~1 within 1.9\% per configuration (mean 1.0\%). The KV size predicted by Eq.~\eqref{eq:kv} equaled llama.cpp's logged allocation in all 18 cases, including Gemma-2's split into 416\,MiB of full-attention cache and 234\,MiB of windowed cache at $C = 8192$. The naive formula gives 832\,MiB. With the reserved-capacity form of Eq.~\eqref{eq:decomp} ($M_{\mathrm{att}} = 0$), LOMO MAPE was 1.61\% and the worst under-prediction $-2.3\%$.
+
+\textit{Filled context.} We then filled each context with $C - 64$ prompt tokens of plain English text and generated 16 tokens, at $C = 2048$ and $8192$ (12 runs, one trial each). Table~\ref{tab:filled} gives the results. At $C = 8192$, peak memory rose by \FilledMinIncreaseEight--\FilledMaxIncrease\% over the short prompt. The reserved-capacity estimator, calibrated on short prompts, under-predicted filled runs by up to \VoneWorstUnder\%. The resident excess grows with $n_{\mathrm{heads}} \cdot C$, as the attention score buffer of Eq.~\eqref{eq:att} would. Adding that term with LOMO calibration gave a MAPE of \FilledMAPE\% (cluster CI \FilledCI) and a worst under-prediction of \FilledWorstUnder\%. The fitted $\gamma$ ranged from \GammaLo\ to \GammaHi\ across folds, and $\beta$ stayed between \BetaLo\ and \BetaHi\,GiB, close to its short-prompt value. A $\gamma$ above 1 suggests that more than one score-sized buffer is resident at the peak. We report the term as a calibrated fit, not as a derivation of llama.cpp's allocator.
+
+\begin{table}[t]
+\centering
+\caption{Short-prompt versus filled-context peak memory (GiB) at $C = 8192$, FP16 cache, with LOMO predictions with and without $M_{\mathrm{att}}$ (E2).}
+\label{tab:filled}
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Model & Short & Filled & $+\%$ & Pred.\ w/o & Pred.\ with \\
+\midrule
+\FilledRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{Memory mapping.} With the default mmap loading at $C = 2048$, measured \texttt{VmRSS} was 6--62\% higher than with \texttt{--no-mmap}. The log shows why: with mmap, pages of the mapped file and the repacked CPU copy of the weights are resident at the same time. File-backed pages count in RSS but can be reclaimed under pressure, so RSS overstates what mmap actually costs. We specify the estimator for \texttt{--no-mmap} and make no accuracy claim for mmap.
+
+\section{Limitations and Conclusion}
+\label{sec:limits}
+All measurements come from one class of two-vCPU x86 host under llama.cpp, with models of at most 3.8\,B parameters. We did not measure a GPU, a Jetson-class board or a unified-memory laptop. The submitted version included projected totals for 8\,B and 70\,B models; we have removed them, along with its statement that WebGPU reports device memory, which it does not. The estimator takes device memory as an input; it does not detect it. The reference implementation is a dependency-free Python module, and a browser front end is future work. Filled-context runs used one trial per configuration, and $\gamma$ was fitted on 12 runs from six models. Enabling flash attention changes the workspace and would need its own calibration. The window rule is specific to Gemma-2 in llama.cpp. Other hybrid, state-space or mixture-of-experts architectures need architecture tables, and batched serving is out of scope.
+
+Within that scope, three findings hold. The GGUF header holds what a fit check needs in its first 1.3\,KB. The effective KV-head count and the exact cache geometry account for most of the accuracy. A single calibrated constant then leaves about 2\% error out of sample on reserved capacity. Filling the context is a different regime, and an estimator calibrated on short prompts will under-predict it. Adding an attention-workspace term keeps the filled-context error near 2\% on this host. The next step is to repeat both experiments on an accelerator and on a unified-memory edge device.
+
+\section*{Reproducibility}
+The parser, measurement harness, raw measurements for both experiments, llama.cpp logs, gguf-parser outputs, model checksums and analysis scripts are available at \url{https://github.com/venumadhav0583/gguf-header-estimator}.
+
+\section*{Acknowledgment}
+The author used an AI assistant to help write analysis scripts and edit the text of this version. The author checked every number against the released measurements and is responsible for the content.
+
+\begin{thebibliography}{00}
+\footnotesize
+\bibitem{llamacpp} G.~Gerganov \emph{et al.}, ``llama.cpp: LLM inference in C/C++,'' 2023--2026. [Online]. Available: \url{https://github.com/ggml-org/llama.cpp}
+\bibitem{ggufspec} ggml contributors, ``GGUF file format specification,'' 2024. [Online]. Available: \url{https://github.com/ggml-org/ggml/blob/master/docs/gguf.md}
+\bibitem{ggufparser} GPUStack, ``gguf-parser-go: Review/check GGUF files and estimate the memory usage,'' v0.26.4, 2026. [Online]. Available: \url{https://github.com/gpustack/gguf-parser-go}
+\bibitem{hfgguf} Hugging Face, ``@huggingface/gguf: A GGUF parser that works on remotely hosted files,'' 2024. [Online]. Available: \url{https://github.com/huggingface/huggingface.js/tree/main/packages/gguf}
+\bibitem{hfcalc} Hugging Face, ``Model memory calculator,'' 2023. [Online]. Available: \url{https://huggingface.co/spaces/hf-accelerate/model-memory-usage}
+\bibitem{gqa} J.~Ainslie \emph{et al.}, ``GQA: Training generalized multi-query transformer models from multi-head checkpoints,'' in \emph{Proc. EMNLP}, 2023.
+\bibitem{mqa} N.~Shazeer, ``Fast transformer decoding: One write-head is all you need,'' arXiv:1911.02150, 2019.
+\bibitem{gemma2} Gemma Team, ``Gemma 2: Improving open language models at a practical size,'' arXiv:2408.00118, 2024.
+\bibitem{vllm} W.~Kwon \emph{et al.}, ``Efficient memory management for large language model serving with PagedAttention,'' in \emph{Proc. SOSP}, 2023.
+\bibitem{gptq} E.~Frantar, S.~Ashkboos, T.~Hoefler, and D.~Alistarh, ``GPTQ: Accurate post-training quantization for generative pre-trained transformers,'' in \emph{Proc. ICLR}, 2023.
+\bibitem{awq} J.~Lin \emph{et al.}, ``AWQ: Activation-aware weight quantization for on-device LLM compression and acceleration,'' in \emph{Proc. MLSys}, 2024.
+\end{thebibliography}
+
+\end{document}

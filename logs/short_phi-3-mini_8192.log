@@ -1,0 +1,164 @@
+0.00.000.954 I llama_completion: llama backend init
+0.00.002.040 I llama_completion: load the model and apply lora adapter, if any
+0.00.015.371 I llama_model_loader: loaded meta data with 24 key-value pairs and 195 tensors from models/phi-3-mini.Q4_K_M.gguf (version GGUF V3 (latest))
+0.00.015.384 I llama_model_loader: Dumping metadata keys/values. Note: KV overrides do not apply in this output.
+0.00.015.389 I llama_model_loader: - kv   0:                       general.architecture str              = phi3
+0.00.015.390 I llama_model_loader: - kv   1:                               general.name str              = Phi3
+0.00.015.391 I llama_model_loader: - kv   2:                        phi3.context_length u32              = 4096
+0.00.015.391 I llama_model_loader: - kv   3:                      phi3.embedding_length u32              = 3072
+0.00.015.392 I llama_model_loader: - kv   4:                   phi3.feed_forward_length u32              = 8192
+0.00.015.392 I llama_model_loader: - kv   5:                           phi3.block_count u32              = 32
+0.00.015.393 I llama_model_loader: - kv   6:                  phi3.attention.head_count u32              = 32
+0.00.015.393 I llama_model_loader: - kv   7:               phi3.attention.head_count_kv u32              = 32
+0.00.015.396 I llama_model_loader: - kv   8:      phi3.attention.layer_norm_rms_epsilon f32              = 0.000010
+0.00.015.396 I llama_model_loader: - kv   9:                  phi3.rope.dimension_count u32              = 96
+0.00.015.397 I llama_model_loader: - kv  10:                          general.file_type u32              = 15
+0.00.015.397 I llama_model_loader: - kv  11:                       tokenizer.ggml.model str              = llama
+0.00.015.398 I llama_model_loader: - kv  12:                         tokenizer.ggml.pre str              = default
+0.00.018.522 I llama_model_loader: - kv  13:                      tokenizer.ggml.tokens arr[str,32064]   = ["<unk>", "<s>", "</s>", "<0x00>", "<...
+0.00.026.506 I llama_model_loader: - kv  14:                      tokenizer.ggml.scores arr[f32,32064]   = [0.000000, 0.000000, 0.000000, 0.0000...
+0.00.027.415 I llama_model_loader: - kv  15:                  tokenizer.ggml.token_type arr[i32,32064]   = [2, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, ...
+0.00.027.419 I llama_model_loader: - kv  16:                tokenizer.ggml.bos_token_id u32              = 1
+0.00.027.419 I llama_model_loader: - kv  17:                tokenizer.ggml.eos_token_id u32              = 32000
+0.00.027.420 I llama_model_loader: - kv  18:            tokenizer.ggml.unknown_token_id u32              = 0
+0.00.027.420 I llama_model_loader: - kv  19:            tokenizer.ggml.padding_token_id u32              = 32000
+0.00.027.421 I llama_model_loader: - kv  20:               tokenizer.ggml.add_bos_token bool             = true
+0.00.027.421 I llama_model_loader: - kv  21:               tokenizer.ggml.add_eos_token bool             = false
+0.00.027.423 I llama_model_loader: - kv  22:                    tokenizer.chat_template str              = {{ bos_token }}{% for message in mess...
+0.00.027.423 I llama_model_loader: - kv  23:               general.quantization_version u32              = 2
+0.00.027.424 I llama_model_loader: - type  f32:   65 tensors
+0.00.027.424 I llama_model_loader: - type q4_K:   81 tensors
+0.00.027.424 I llama_model_loader: - type q5_K:   32 tensors
+0.00.027.424 I llama_model_loader: - type q6_K:   17 tensors
+0.00.027.426 I print_info: file format = GGUF V3 (latest)
+0.00.027.427 I print_info: file type   = Q4_K - Medium
+0.00.027.428 I print_info: file size   = 2.23 GiB (5.01 BPW) 
+0.00.032.866 W load: control-looking token:  32007 '<|end|>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.037.329 I load: 0 unused tokens
+0.00.038.278 W load: control-looking token:  32000 '<|endoftext|>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.040.739 I load: printing all EOG tokens:
+0.00.040.746 I load:   - 2 ('</s>')
+0.00.040.747 I load:   - 32000 ('<|endoftext|>')
+0.00.040.747 I load:   - 32007 ('<|end|>')
+0.00.040.791 I load: special tokens cache size = 67
+0.00.043.430 I load: token to piece cache size = 0.1690 MB
+0.00.043.448 I print_info: arch                  = phi3
+0.00.043.448 I print_info: vocab_only            = 0
+0.00.043.448 I print_info: no_alloc              = 0
+0.00.043.449 I print_info: n_ctx_train           = 4096
+0.00.043.449 I print_info: n_embd_inp            = 3072
+0.00.043.449 I print_info: n_embd                = 3072
+0.00.043.450 I print_info: n_embd_out            = 3072
+0.00.043.450 I print_info: n_layer               = 32
+0.00.043.450 I print_info: n_layer_all           = 32
+0.00.043.471 I print_info: n_head                = 32
+0.00.043.472 I print_info: n_head_kv             = 32
+0.00.043.473 I print_info: n_rot                 = 96
+0.00.043.473 I print_info: n_swa                 = 0
+0.00.043.474 I print_info: is_swa_any            = 0
+0.00.043.474 I print_info: non_causal_type       = 0
+0.00.043.474 I print_info: n_embd_head_k         = 96
+0.00.043.474 I print_info: n_embd_head_v         = 96
+0.00.043.475 I print_info: n_gqa                 = 1
+0.00.043.476 I print_info: n_embd_k_gqa          = 3072
+0.00.043.477 I print_info: n_embd_v_gqa          = 3072
+0.00.043.477 I print_info: f_norm_eps            = 0.0e+00
+0.00.043.478 I print_info: f_norm_rms_eps        = 1.0e-05
+0.00.043.479 I print_info: f_clamp_kqv           = 0.0e+00
+0.00.043.479 I print_info: f_max_alibi_bias      = 0.0e+00
+0.00.043.479 I print_info: f_logit_scale         = 0.0e+00
+0.00.043.479 I print_info: f_attn_scale          = 0.0e+00
+0.00.043.480 I print_info: f_attn_value_scale    = 0.0000
+0.00.043.480 I print_info: n_ff                  = 8192
+0.00.043.481 I print_info: n_expert              = 0
+0.00.043.481 I print_info: n_expert_used         = 0
+0.00.043.481 I print_info: n_expert_groups       = 0
+0.00.043.482 I print_info: n_group_used          = 0
+0.00.043.482 I print_info: causal attn           = 1
+0.00.043.482 I print_info: pooling type          = -1
+0.00.043.482 I print_info: rope type             = 2
+0.00.043.483 I print_info: rope scaling          = linear
+0.00.043.483 I print_info: freq_base_train       = 10000.0
+0.00.043.484 I print_info: freq_scale_train      = 1
+0.00.043.484 I print_info: n_ctx_orig_yarn       = 4096
+0.00.043.485 I print_info: rope_yarn_log_mul     = 0.0000
+0.00.043.485 I print_info: rope_finetuned        = unknown
+0.00.043.486 I print_info: model type            = 3B
+0.00.043.486 I print_info: model params          = 3.82 B
+0.00.043.487 I print_info: general.name          = Phi3
+0.00.043.488 I print_info: vocab type            = SPM
+0.00.043.488 I print_info: n_vocab               = 32064
+0.00.043.489 I print_info: n_merges              = 0
+0.00.043.489 I print_info: BOS token             = 1 '<s>'
+0.00.043.489 I print_info: EOS token             = 32000 '<|endoftext|>'
+0.00.043.490 I print_info: EOT token             = 32007 '<|end|>'
+0.00.043.491 I print_info: UNK token             = 0 '<unk>'
+0.00.043.491 I print_info: PAD token             = 32000 '<|endoftext|>'
+0.00.043.492 I print_info: LF token              = 13 '<0x0A>'
+0.00.043.492 I print_info: EOG token             = 2 '</s>'
+0.00.043.492 I print_info: EOG token             = 32000 '<|endoftext|>'
+0.00.043.493 I print_info: EOG token             = 32007 '<|end|>'
+0.00.043.493 I print_info: max token length      = 48
+0.00.043.494 I load_tensors: loading model tensors, this can take a while... (load_mode = none)
+0.00.044.871 I load_tensors:          CPU model buffer size =  1039.66 MiB
+0.00.044.875 I load_tensors:   CPU_REPACK model buffer size =  1242.00 MiB
+...........................................................................................
+0.02.417.867 I cmn  common_init_: added </s> logit bias = -inf
+0.02.417.991 I cmn  common_init_: added <|endoftext|> logit bias = -inf
+0.02.417.993 I cmn  common_init_: added <|end|> logit bias = -inf
+0.02.418.035 I llama_context: constructing llama_context
+0.02.418.045 I llama_context: n_seq_max             = 1
+0.02.418.045 I llama_context: n_ctx                 = 8192
+0.02.418.046 I llama_context: n_ctx_seq             = 8192
+0.02.418.046 I llama_context: n_batch               = 2048
+0.02.418.046 I llama_context: n_ubatch              = 512
+0.02.418.046 I llama_context: causal_attn           = 1
+0.02.418.047 I llama_context: flash_attn            = disabled
+0.02.418.047 I llama_context: kv_unified            = false
+0.02.418.050 I llama_context: freq_base             = 10000.0
+0.02.418.051 I llama_context: freq_scale            = 1
+0.02.418.051 I llama_context: n_rs_seq              = 0
+0.02.418.051 I llama_context: n_outputs_max         = 2048
+0.02.418.052 I llama_context: n_outputs_max_per_seq = 1
+0.02.418.052 W llama_context: n_ctx_seq (8192) > n_ctx_train (4096) -- possible training context overflow
+0.02.418.075 I llama_context:        CPU  output buffer size =     0.12 MiB
+0.02.418.221 I llama_kv_cache:        CPU KV buffer size =  3072.00 MiB
+0.04.685.238 I llama_kv_cache: size = 3072.00 MiB (  8192 cells,  32 layers,  1/1 seqs), K (f16): 1536.00 MiB, V (f16): 1536.00 MiB
+0.04.685.247 I llama_kv_cache: n_rot_k = 0, n_embd_head_k_all = 96
+0.04.685.248 I llama_kv_cache: n_rot_v = 0, n_embd_head_k_all = 96
+0.04.685.264 I sched_reserve: reserving ...
+0.04.686.306 I resolve_fused_ops: resolving fused DeepSeek V4 HC support:
+0.04.686.958 I resolve_fused_ops: fused DeepSeek V4 HC pre enabled
+0.04.687.338 I resolve_fused_ops: fused DeepSeek V4 HC comb enabled
+0.04.687.705 I resolve_fused_ops: fused DeepSeek V4 HC post enabled
+0.04.689.206 I sched_reserve:        CPU compute buffer size =   570.02 MiB
+0.04.689.215 I sched_reserve: graph: nodes = 1097, splits = 1, input objects = 4, input tensors = 9
+0.04.689.216 I sched_reserve: reserve took 3.95 ms, sched copies = 1
+0.04.689.241 I cmn          init: llama threadpool init, n_threads = 2
+0.04.694.493 W llama_completion: model was trained on only 4096 context tokens (8192 specified)
+0.04.694.497 I 
+0.04.695.726 I system_info: n_threads = 2 (n_threads_batch = 2) / 2 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.04.695.729 I 
+0.04.697.336 I sampler seed: 4294967295
+0.04.697.348 I sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+	top_k = 40, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+0.04.697.355 I sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> greedy 
+0.04.697.356 I generate: n_ctx = 8192, n_batch = 2048, n_predict = 16, n_keep = 1
+0.04.697.357 I 
+ The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fo
+
+0.16.273.569 I common_perf_print:    sampling time =       1.52 ms
+0.16.273.581 I common_perf_print:    samplers time =       0.49 ms /   257 tokens
+0.16.273.591 I common_perf_print:        load time =    9354.85 ms
+0.16.273.620 I common_perf_print: prompt eval time =    9351.73 ms /   241 tokens (   38.80 ms per token,    25.77 tokens per second)
+0.16.273.630 I common_perf_print:        eval time =    2221.56 ms /    15 runs   (  148.10 ms per token,     6.75 tokens per second)
+0.16.273.638 I common_perf_print:       total time =   11579.10 ms /   256 tokens
+0.16.273.647 I common_perf_print: unaccounted time =       4.29 ms /   0.0 %      (total - sampling - prompt eval - eval) / (total)
+0.16.273.655 I common_perf_print:    graphs reused =         14
+0.16.273.664 I common_perf_print:   graph reallocs =          0    /     0        (same size) / (changed size)
+0.16.275.135 I common_memory_breakdown_print: | memory breakdown [MiB] | total   free    self   model   context   compute    unaccounted |
+0.16.275.161 I common_memory_breakdown_print: |   - Host               |                 4681 =  1039 +    3072 +     570                |
+0.16.275.178 I common_memory_breakdown_print: |   - CPU_REPACK         |                 1242 =  1242 +       0 +       0                |

@@ -1,0 +1,187 @@
+0.00.001.074 I llama_completion: llama backend init
+0.00.002.098 I llama_completion: load the model and apply lora adapter, if any
+0.00.039.009 I llama_model_loader: loaded meta data with 39 key-value pairs and 288 tensors from models/gemma-2-2b.Q4_K_M.gguf (version GGUF V3 (latest))
+0.00.039.030 I llama_model_loader: Dumping metadata keys/values. Note: KV overrides do not apply in this output.
+0.00.039.036 I llama_model_loader: - kv   0:                       general.architecture str              = gemma2
+0.00.039.037 I llama_model_loader: - kv   1:                               general.type str              = model
+0.00.039.037 I llama_model_loader: - kv   2:                               general.name str              = Gemma 2 2b It
+0.00.039.038 I llama_model_loader: - kv   3:                           general.finetune str              = it
+0.00.039.038 I llama_model_loader: - kv   4:                           general.basename str              = gemma-2
+0.00.039.039 I llama_model_loader: - kv   5:                         general.size_label str              = 2B
+0.00.039.039 I llama_model_loader: - kv   6:                            general.license str              = gemma
+0.00.039.046 I llama_model_loader: - kv   7:                               general.tags arr[str,2]       = ["conversational", "text-generation"]
+0.00.039.051 I llama_model_loader: - kv   8:                      gemma2.context_length u32              = 8192
+0.00.039.051 I llama_model_loader: - kv   9:                    gemma2.embedding_length u32              = 2304
+0.00.039.051 I llama_model_loader: - kv  10:                         gemma2.block_count u32              = 26
+0.00.039.052 I llama_model_loader: - kv  11:                 gemma2.feed_forward_length u32              = 9216
+0.00.039.052 I llama_model_loader: - kv  12:                gemma2.attention.head_count u32              = 8
+0.00.039.053 I llama_model_loader: - kv  13:             gemma2.attention.head_count_kv u32              = 4
+0.00.039.056 I llama_model_loader: - kv  14:    gemma2.attention.layer_norm_rms_epsilon f32              = 0.000001
+0.00.039.057 I llama_model_loader: - kv  15:                gemma2.attention.key_length u32              = 256
+0.00.039.057 I llama_model_loader: - kv  16:              gemma2.attention.value_length u32              = 256
+0.00.039.058 I llama_model_loader: - kv  17:                          general.file_type u32              = 15
+0.00.039.059 I llama_model_loader: - kv  18:              gemma2.attn_logit_softcapping f32              = 50.000000
+0.00.039.060 I llama_model_loader: - kv  19:             gemma2.final_logit_softcapping f32              = 30.000000
+0.00.039.060 I llama_model_loader: - kv  20:            gemma2.attention.sliding_window u32              = 4096
+0.00.039.060 I llama_model_loader: - kv  21:                       tokenizer.ggml.model str              = llama
+0.00.039.061 I llama_model_loader: - kv  22:                         tokenizer.ggml.pre str              = default
+0.00.064.259 I llama_model_loader: - kv  23:                      tokenizer.ggml.tokens arr[str,256000]  = ["<pad>", "<eos>", "<bos>", "<unk>", ...
+0.00.130.949 I llama_model_loader: - kv  24:                      tokenizer.ggml.scores arr[f32,256000]  = [-1000.000000, -1000.000000, -1000.00...
+0.00.138.205 I llama_model_loader: - kv  25:                  tokenizer.ggml.token_type arr[i32,256000]  = [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, ...
+0.00.138.211 I llama_model_loader: - kv  26:                tokenizer.ggml.bos_token_id u32              = 2
+0.00.138.212 I llama_model_loader: - kv  27:                tokenizer.ggml.eos_token_id u32              = 1
+0.00.138.213 I llama_model_loader: - kv  28:            tokenizer.ggml.unknown_token_id u32              = 3
+0.00.138.213 I llama_model_loader: - kv  29:            tokenizer.ggml.padding_token_id u32              = 0
+0.00.138.214 I llama_model_loader: - kv  30:               tokenizer.ggml.add_bos_token bool             = true
+0.00.138.216 I llama_model_loader: - kv  31:               tokenizer.ggml.add_eos_token bool             = false
+0.00.138.218 I llama_model_loader: - kv  32:                    tokenizer.chat_template str              = {{ bos_token }}{% if messages[0]['rol...
+0.00.138.219 I llama_model_loader: - kv  33:            tokenizer.ggml.add_space_prefix bool             = false
+0.00.138.219 I llama_model_loader: - kv  34:               general.quantization_version u32              = 2
+0.00.138.220 I llama_model_loader: - kv  35:                      quantize.imatrix.file str              = /models_out/gemma-2-2b-it-GGUF/gemma-...
+0.00.138.221 I llama_model_loader: - kv  36:                   quantize.imatrix.dataset str              = /training_dir/calibration_datav3.txt
+0.00.138.222 I llama_model_loader: - kv  37:             quantize.imatrix.entries_count i32              = 182
+0.00.138.223 I llama_model_loader: - kv  38:              quantize.imatrix.chunks_count i32              = 128
+0.00.138.224 I llama_model_loader: - type  f32:  105 tensors
+0.00.138.225 I llama_model_loader: - type q4_K:  156 tensors
+0.00.138.226 I llama_model_loader: - type q6_K:   27 tensors
+0.00.138.236 I print_info: file format = GGUF V3 (latest)
+0.00.138.241 I print_info: file type   = Q4_K - Medium
+0.00.138.243 I print_info: file size   = 1.59 GiB (5.21 BPW) 
+0.00.239.632 I load: 100 unused tokens
+0.00.249.885 W load: control-looking token:    213 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.272.514 I load: printing all EOG tokens:
+0.00.272.516 I load:   - 1 ('<eos>')
+0.00.272.517 I load:   - 107 ('<end_of_turn>')
+0.00.272.518 I load:   - 213 ('</s>')
+0.00.273.106 I load: special tokens cache size = 249
+0.00.292.890 I load: token to piece cache size = 1.6014 MB
+0.00.292.920 I print_info: arch                  = gemma2
+0.00.292.923 I print_info: vocab_only            = 0
+0.00.292.923 I print_info: no_alloc              = 0
+0.00.292.924 I print_info: n_ctx_train           = 8192
+0.00.292.924 I print_info: n_embd_inp            = 2304
+0.00.292.925 I print_info: n_embd                = 2304
+0.00.292.925 I print_info: n_embd_out            = 2304
+0.00.292.925 I print_info: n_layer               = 26
+0.00.292.926 I print_info: n_layer_all           = 26
+0.00.292.954 I print_info: n_head                = 8
+0.00.292.955 I print_info: n_head_kv             = 4
+0.00.292.955 I print_info: n_rot                 = 256
+0.00.292.956 I print_info: n_swa                 = 4096
+0.00.292.956 I print_info: is_swa_any            = 1
+0.00.292.956 I print_info: non_causal_type       = 0
+0.00.292.957 I print_info: n_embd_head_k         = 256
+0.00.292.957 I print_info: n_embd_head_v         = 256
+0.00.292.958 I print_info: n_gqa                 = 2
+0.00.292.959 I print_info: n_embd_k_gqa          = 1024
+0.00.292.959 I print_info: n_embd_v_gqa          = 1024
+0.00.292.960 I print_info: f_norm_eps            = 0.0e+00
+0.00.292.961 I print_info: f_norm_rms_eps        = 1.0e-06
+0.00.292.962 I print_info: f_clamp_kqv           = 0.0e+00
+0.00.292.962 I print_info: f_max_alibi_bias      = 0.0e+00
+0.00.292.962 I print_info: f_logit_scale         = 0.0e+00
+0.00.292.963 I print_info: f_attn_scale          = 6.2e-02
+0.00.292.963 I print_info: f_attn_value_scale    = 0.0000
+0.00.292.964 I print_info: n_ff                  = 9216
+0.00.292.964 I print_info: n_expert              = 0
+0.00.292.964 I print_info: n_expert_used         = 0
+0.00.292.965 I print_info: n_expert_groups       = 0
+0.00.292.965 I print_info: n_group_used          = 0
+0.00.292.965 I print_info: causal attn           = 1
+0.00.292.965 I print_info: pooling type          = -1
+0.00.292.966 I print_info: rope type             = 2
+0.00.292.966 I print_info: rope scaling          = linear
+0.00.292.967 I print_info: freq_base_train       = 10000.0
+0.00.292.968 I print_info: freq_scale_train      = 1
+0.00.292.969 I print_info: freq_base_swa         = 10000.0
+0.00.292.969 I print_info: freq_scale_swa        = 1
+0.00.292.969 I print_info: n_embd_head_k_swa     = 256
+0.00.292.970 I print_info: n_embd_head_v_swa     = 256
+0.00.292.970 I print_info: n_rot_swa             = 256
+0.00.292.970 I print_info: n_ctx_orig_yarn       = 8192
+0.00.292.970 I print_info: rope_yarn_log_mul     = 0.0000
+0.00.292.971 I print_info: rope_finetuned        = unknown
+0.00.292.972 I print_info: model type            = 2B
+0.00.292.972 I print_info: model params          = 2.61 B
+0.00.292.973 I print_info: general.name          = Gemma 2 2b It
+0.00.292.974 I print_info: vocab type            = SPM
+0.00.292.974 I print_info: n_vocab               = 256000
+0.00.292.975 I print_info: n_merges              = 0
+0.00.292.975 I print_info: BOS token             = 2 '<bos>'
+0.00.292.975 I print_info: EOS token             = 1 '<eos>'
+0.00.292.976 I print_info: EOT token             = 107 '<end_of_turn>'
+0.00.292.976 I print_info: UNK token             = 3 '<unk>'
+0.00.292.977 I print_info: PAD token             = 0 '<pad>'
+0.00.292.977 I print_info: LF token              = 227 '<0x0A>'
+0.00.292.978 I print_info: EOG token             = 1 '<eos>'
+0.00.292.978 I print_info: EOG token             = 107 '<end_of_turn>'
+0.00.292.978 I print_info: EOG token             = 213 '</s>'
+0.00.292.979 I print_info: max token length      = 48
+0.00.292.988 I load_tensors: loading model tensors, this can take a while... (load_mode = none)
+0.00.294.760 I load_tensors:          CPU model buffer size =   702.29 MiB
+0.00.294.763 I load_tensors:   CPU_REPACK model buffer size =   921.38 MiB
+.......................................................................
+0.03.104.319 I cmn  common_init_: added <eos> logit bias = -inf
+0.03.104.324 I cmn  common_init_: added <end_of_turn> logit bias = -inf
+0.03.104.325 I cmn  common_init_: added </s> logit bias = -inf
+0.03.105.590 I llama_context: constructing llama_context
+0.03.105.601 I llama_context: n_seq_max             = 1
+0.03.105.601 I llama_context: n_ctx                 = 2048
+0.03.105.602 I llama_context: n_ctx_seq             = 2048
+0.03.105.602 I llama_context: n_batch               = 2048
+0.03.105.602 I llama_context: n_ubatch              = 512
+0.03.105.603 I llama_context: causal_attn           = 1
+0.03.105.604 I llama_context: flash_attn            = disabled
+0.03.105.604 I llama_context: kv_unified            = false
+0.03.105.607 I llama_context: freq_base             = 10000.0
+0.03.105.608 I llama_context: freq_scale            = 1
+0.03.105.609 I llama_context: n_rs_seq              = 0
+0.03.105.609 I llama_context: n_outputs_max         = 2048
+0.03.105.610 I llama_context: n_outputs_max_per_seq = 1
+0.03.105.610 I llama_context: n_ctx_seq (2048) < n_ctx_train (8192) -- the full capacity of the model will not be utilized
+0.03.105.712 I llama_context:        CPU  output buffer size =     0.98 MiB
+0.03.105.728 I llama_kv_cache_iswa: creating non-SWA KV cache, size = 2048 cells
+0.03.105.817 I llama_kv_cache:        CPU KV buffer size =   104.00 MiB
+0.03.162.183 I llama_kv_cache: size =  104.00 MiB (  2048 cells,  13 layers,  1/1 seqs), K (f16):   52.00 MiB, V (f16):   52.00 MiB
+0.03.162.191 I llama_kv_cache: n_rot_k = 0, n_embd_head_k_all = 256
+0.03.162.192 I llama_kv_cache: n_rot_v = 0, n_embd_head_k_all = 256
+0.03.162.195 I llama_kv_cache_iswa: creating     SWA KV cache, size = 2048 cells
+0.03.162.270 I llama_kv_cache:        CPU KV buffer size =   104.00 MiB
+0.03.226.379 I llama_kv_cache: size =  104.00 MiB (  2048 cells,  13 layers,  1/1 seqs), K (f16):   52.00 MiB, V (f16):   52.00 MiB
+0.03.226.387 I llama_kv_cache: n_rot_k = 0, n_embd_head_k_all = 256
+0.03.226.388 I llama_kv_cache: n_rot_v = 0, n_embd_head_k_all = 256
+0.03.226.398 I sched_reserve: reserving ...
+0.03.228.285 I resolve_fused_ops: resolving fused DeepSeek V4 HC support:
+0.03.228.896 I resolve_fused_ops: fused DeepSeek V4 HC pre enabled
+0.03.229.319 I resolve_fused_ops: fused DeepSeek V4 HC comb enabled
+0.03.229.764 I resolve_fused_ops: fused DeepSeek V4 HC post enabled
+0.03.231.440 I sched_reserve:        CPU compute buffer size =   538.52 MiB
+0.03.231.447 I sched_reserve: graph: nodes = 1157, splits = 1, input objects = 4, input tensors = 12
+0.03.231.448 I sched_reserve: reserve took 5.05 ms, sched copies = 1
+0.03.231.574 I cmn          init: llama threadpool init, n_threads = 2
+0.03.234.647 I 
+0.03.234.699 I system_info: n_threads = 2 (n_threads_batch = 2) / 2 | CPU : SSE3 = 1 | SSSE3 = 1 | AVX = 1 | AVX2 = 1 | F16C = 1 | FMA = 1 | BMI2 = 1 | LLAMAFILE = 1 | OPENMP = 1 | REPACK = 1 | 
+0.03.234.702 I 
+0.03.240.017 I sampler seed: 4294967295
+0.03.240.033 I sampler params: 
+	repeat_last_n = 64, repeat_penalty = 1.000, frequency_penalty = 0.000, presence_penalty = 0.000
+	dry_multiplier = 0.000, dry_base = 1.750, dry_allowed_length = 2, dry_penalty_last_n = 64
+	top_k = 40, top_p = 0.950, min_p = 0.050, xtc_probability = 0.000, xtc_threshold = 0.100, typical_p = 1.000, top_n_sigma = -1.000, temp = 0.000
+	mirostat = 0, mirostat_lr = 0.100, mirostat_ent = 5.000, adaptive_target = -1.000, adaptive_decay = 0.900
+0.03.240.040 I sampler chain: logits -> ?penalties -> ?dry -> ?top-n-sigma -> top-k -> ?typical -> top-p -> min-p -> ?xtc -> temp-ext -> greedy 
+0.03.240.041 I generate: n_ctx = 2048, n_batch = 2048, n_predict = 16, n_keep = 1
+0.03.240.041 I 
+A maintenance crew compresses the queue depth before the next window closes. A field engineer reports a temperature reading during the night shift. A technician records the error budget for the regional dashboard. The operator forwards the queue depth at the substation. A field engineer checks a temperature reading under the current policy. The local model records a heartbeat packet when the link recovers. Each sensor node validates the vibration trace as soon as storage frees up. Entry 6 was logged at 18:25. The operator checks the vibration trace under the current policy. The edge gateway rejects the queue depth after a short delay. The data logger forwards a heartbeat packet unless the battery is low. The data logger compresses a temperature reading as soon as storage frees up. A technician checks a calibration table when the link recovers. The data logger forwards a heartbeat packet before the next window closes. A technician checks a pressure sample under the current policy. Entry 13 was logged at 13:49. A maintenance crew retries a heartbeat packet with a new sequence number. A maintenance crew rejects an alarm message after a short delay. Each sensor node forwards a heartbeat packet unless the battery is low. The data logger retries a calibration table with a new sequence number. The scheduler validates a temperature reading when the link recovers. The data logger buffers the hourly batch during the night shift. The edge gateway retries the queue depth before the next window closes. Entry 20 was logged at 21:04. The data logger validates a calibration table during the night shift. A maintenance crew validates a pressure sample as soon as storage frees up. The control loop forwards a temperature reading unless the battery is low. The control loop forwards the vibration trace unless the battery is low. A technician retries the firmware image at the substation. A maintenance crew records a pressure sample during the night shift. The edge gateway validates a temperature reading with a new sequence number. Entry 27 was logged at 01:13. The scheduler compresses an alarm message at the substation. The local model retries a temperature reading after a short delay. The control loop buffers the error budget unless the battery is low. The edge gateway buffers the error budget unless the battery is low. The local model summarizes the queue depth for the regional dashboard. The edge gateway forwards the hourly batch after a short delay. Each sensor node checks the vibration trace with a new sequence number. Entry 34 was logged at 18:11. The scheduler rejects the vibration trace after a short delay. The local model reports a calibration table as soon as storage frees up. A technician summarizes the hourly batch under the current policy. A technician records a pressure sample under the current policy. The local model buffers the queue depth at the substation. A field engineer retries the queue depth before the next window closes. Each sensor node forwards an alarm message with a new sequence number. Entry 41 was logged at 05:07. A maintenance crew validates the vibration trace when the link recovers. The operator validates the hourly batch under the current policy. A field engineer summarizes a heartbeat packet before the next window closes. A field engineer checks a heartbeat packet at the substation. The edge gateway rejects a calibration table as soon as storage frees up. A maintenance crew retries a temperature reading when the link recovers. The control loop retries a pressure sample with a new sequence number. Entry 48 was logged at 09:05. The edge gateway forwards a calibration table unless the battery is low. The control loop compresses the error budget before the next window closes. Each sensor node reports a calibration table after a short delay. The data logger records the error budget unless the battery is low. A field engineer rejects the error budget during the night shift. The edge gateway summarizes an alarm message under the current policy. The data logger reports a calibration table for the regional dashboard. Entry 55 was logged at 19:51. Each sensor node checks the queue depth for the regional dashboard. Each sensor node reports a pressure sample during the night shift. The operator records the firmware image with a new sequence number. The scheduler checks a heartbeat packet during the night shift. The control loop summarizes a calibration table when the link recovers. Each sensor node forwards an alarm message with a new sequence number. Each sensor node summarizes an alarm message with a new sequence number. Entry 62 was logged at 19:57. A technician records a pressure sample during the night shift. A field engineer forwards the queue depth for the regional dashboard. The control loop compresses the queue depth during the night shift. A field engineer buffers a pressure sample at the substation. A field engineer compresses the hourly batch after a short delay. The operator compresses a heartbeat packet with a new sequence number. The edge gateway validates a heartbeat packet with a new sequence number. Entry 69 was logged at 21:59. A maintenance crew compresses the error budget under the current policy. The edge gateway records the vibration trace when the link recovers. The data logger compresses the queue depth for the regional dashboard. Each sensor node records the firmware image for the regional dashboard. The scheduler reports an alarm message as soon as storage frees up. A maintenance crew rejects the error budget at the substation. The edge gateway records a calibration table with a new sequence number. Entry 76 was logged at 21:37. The data logger buffers the error budget after a short delay. The data logger compresses the error budget under the current policy. The operator retries the hourly batch as soon as storage frees up. The operator compresses the hourly batch after a short delay. The control loop validates a temperature reading under the current policy. The operator summarizes the error budget under the current policy. The data logger retries a temperature reading under the current policy. Entry 83 was logged at 01:15. Each sensor node rejects the vibration trace when the link recovers. The data logger retries the error budget before the next window closes. A field engineer retries a calibration table as soon as storage frees up. The data logger validates the error budget for the regional dashboard. The scheduler retries the error budget under the current policy. The control loop reports an alarm message under the current policy. The scheduler reports an alarm message with a new sequence number. Entry 90 was logged at 04:26. A field engineer buffers a pressure sample during the night shift. A field engineer checks the queue depth when the link recovers. Each sensor node rejects a temperature reading after a short delay. A maintenance crew compresses the firmware image after a short delay. The control loop checks a temperature reading at the substation. The control loop compresses an alarm message after a short delay. The local model reports the queue depth during the night shift. Entry 97 was logged at 13:12. A maintenance crew summarizes a temperature reading during the night shift. The operator summarizes the error budget with a new sequence number. The control loop records the queue depth during the night shift. The data logger validates the firmware image under the current policy. A field engineer forwards an alarm message when the link recovers. A field engineer rejects the firmware image before the next window closes. The edge gateway rejects the hourly batch at the substation. Entry 104 was logged at 21:52. The scheduler buffers the hourly batch under the current policy. The data logger validates a pressure sample during the night shift. A field engineer rejects the vibration trace after a short delay. The local model forwards the firmware image before the next window closes. A field engineer rejects a temperature reading as soon as storage frees up. Each sensor node forwards the firmware image when the link recovers. The control loop records a calibration table under the current policy. Entry 111 was logged at 13:59. The scheduler validates the hourly batch before the next window closes. The data logger checks a temperature reading after a short delay. The scheduler records the hourly batch for the regional dashboard. The scheduler rejects the error budget for the regional dashboard. The scheduler retries the error budget after a short delay. The scheduler summarizes the vibration trace unless the battery is low. The operator records the vibration trace under the current policy. Entry 118 was logged at 17:12. The data logger retries an alarm message with a new sequence number. A field engineer buffers a pressure sample under the current policy. The local model reports the firmware image for the regional dashboard. Each sensor node summarizes an alarm message after a short delay. The local model summarizes the vibration trace after a short delay. The operator forwards the firmware image at the substation. The edge gateway records a temperature reading at the substation. Entry 125 was logged at 16:42. The scheduler validates an alarm message unless the battery is low. The operator retries the hourly batch after a short delay. The scheduler retries the vibration trace unless the battery is low. A maintenance crew summarizes the error budget during the night shift. Each sensor node records the firmware image for the regional dashboard. A maintenance crew compresses the vibration trace during the night shift. The local model forwards a pressure sample unless the battery is low. Entry 132 was logged at 16:41. Each sensor node checks the error budget before the next window closes. A field engineer rejects a temperature reading after a short delay. The local model validates the vibration trace at the substation. The operator rejects the firmware image for the regional dashboard. A field engineer validates the error budget after a short delay. A technician buffers a calibration table with a new sequence number. The edge gateway rejects a heartbeat packet after a short delay. Entry 139 was logged at 05:08. The data logger validates the firmware image under the current policy
+
+0.52.438.556 I common_perf_print:    sampling time =       9.96 ms
+0.52.438.567 I common_perf_print:    samplers time =       2.73 ms /  2000 tokens
+0.52.438.578 I common_perf_print:        load time =   47435.64 ms
+0.52.438.587 I common_perf_print: prompt eval time =   47427.19 ms /  1984 tokens (   23.90 ms per token,    41.83 tokens per second)
+0.52.438.597 I common_perf_print:        eval time =    1756.73 ms /    15 runs   (  117.12 ms per token,     8.54 tokens per second)
+0.52.438.606 I common_perf_print:       total time =   49203.93 ms /  1999 tokens
+0.52.438.615 I common_perf_print: unaccounted time =      10.05 ms /   0.0 %      (total - sampling - prompt eval - eval) / (total)
+0.52.438.623 I common_perf_print:    graphs reused =         14
+0.52.438.632 I common_perf_print:   graph reallocs =          0    /     0        (same size) / (changed size)
+0.52.438.709 I common_memory_breakdown_print: | memory breakdown [MiB] | total   free    self   model   context   compute    unaccounted |
+0.52.438.739 I common_memory_breakdown_print: |   - Host               |                 1448 =   702 +     208 +     538                |
+0.52.438.748 I common_memory_breakdown_print: |   - CPU_REPACK         |                  921 =   921 +       0 +       0                |

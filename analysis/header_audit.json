@@ -1,0 +1,139 @@
+[
+ {
+  "file": "gemma-2-2b.Q4_K_M.gguf",
+  "version": 3,
+  "n_tensors": 288,
+  "n_kv": 39,
+  "arch": "gemma2",
+  "needed_fields_end_offset": 949,
+  "metadata_kv_end": 6029343,
+  "tensor_info_end": 6046552,
+  "file_size": 1708582752,
+  "fields": {
+   "block_count": 26,
+   "attention.head_count": 8,
+   "attention.head_count_kv": 4,
+   "embedding_length": 2304,
+   "attention.key_length": 256,
+   "attention.value_length": 256,
+   "attention.sliding_window": 4096,
+   "context_length": 8192
+  },
+  "param_count": null,
+  "tokenizer_vocab": "<array 256000>",
+  "file_type": 15,
+  "needed_fields_before_tokenizer": true
+ },
+ {
+  "file": "llama-3.2-1b.Q4_K_M.gguf",
+  "version": 3,
+  "n_tensors": 147,
+  "n_kv": 35,
+  "arch": "llama",
+  "needed_fields_end_offset": 993,
+  "metadata_kv_end": 7822851,
+  "tensor_info_end": 7831525,
+  "file_size": 807694464,
+  "fields": {
+   "block_count": 16,
+   "attention.head_count": 32,
+   "attention.head_count_kv": 8,
+   "embedding_length": 2048,
+   "attention.key_length": 64,
+   "attention.value_length": 64,
+   "context_length": 131072
+  },
+  "param_count": null,
+  "tokenizer_vocab": "<array 128256>",
+  "file_type": 15,
+  "needed_fields_before_tokenizer": true
+ },
+ {
+  "file": "phi-3-mini.Q4_K_M.gguf",
+  "version": 3,
+  "n_tensors": 195,
+  "n_kv": 24,
+  "arch": "phi3",
+  "needed_fields_end_offset": 333,
+  "metadata_kv_end": 725927,
+  "tensor_info_end": 737483,
+  "file_size": 2393231072,
+  "fields": {
+   "block_count": 32,
+   "attention.head_count": 32,
+   "attention.head_count_kv": 32,
+   "embedding_length": 3072,
+   "context_length": 4096
+  },
+  "param_count": null,
+  "tokenizer_vocab": "<array 32064>",
+  "file_type": 15,
+  "needed_fields_before_tokenizer": true
+ },
+ {
+  "file": "qwen2-0.5b.Q4_K_M.gguf",
+  "version": 3,
+  "n_tensors": 290,
+  "n_kv": 26,
+  "arch": "qwen2",
+  "needed_fields_end_offset": 355,
+  "metadata_kv_end": 5929016,
+  "tensor_info_end": 5945515,
+  "file_size": 397805248,
+  "fields": {
+   "block_count": 24,
+   "attention.head_count": 14,
+   "attention.head_count_kv": 2,
+   "embedding_length": 896,
+   "context_length": 32768
+  },
+  "param_count": null,
+  "tokenizer_vocab": "<array 151936>",
+  "file_type": 15,
+  "needed_fields_before_tokenizer": true
+ },
+ {
+  "file": "qwen2-1.5b.Q4_K_M.gguf",
+  "version": 3,
+  "n_tensors": 338,
+  "n_kv": 26,
+  "arch": "qwen2",
+  "needed_fields_end_offset": 355,
+  "metadata_kv_end": 5929016,
+  "tensor_info_end": 5948267,
+  "file_size": 986045824,
+  "fields": {
+   "block_count": 28,
+   "attention.head_count": 12,
+   "attention.head_count_kv": 2,
+   "embedding_length": 1536,
+   "context_length": 32768
+  },
+  "param_count": null,
+  "tokenizer_vocab": "<array 151936>",
+  "file_type": 15,
+  "needed_fields_before_tokenizer": true
+ },
+ {
+  "file": "tinyllama-1.1b.Q4_K_M.gguf",
+  "version": 3,
+  "n_tensors": 201,
+  "n_kv": 23,
+  "arch": "llama",
+  "needed_fields_end_offset": 412,
+  "metadata_kv_end": 1697530,
+  "tensor_info_end": 1709436,
+  "file_size": 668788096,
+  "fields": {
+   "block_count": 22,
+   "attention.head_count": 32,
+   "attention.head_count_kv": 4,
+   "embedding_length": 2048,
+   "context_length": 2048
+  },
+  "param_count": null,
+  "tokenizer_vocab": "<array 32000>",
+  "file_type": 15,
+  "needed_fields_before_tokenizer": true
+ }
+]

@@ -1,0 +1,726 @@
+{
+ "tool": "gguf-parser-go v0.26.4",
+ "flags": "-c C --ngl 0 --ctk/--ctv KV --no-flash-attention, default -b 2048 -ub 512, default platform footprint 150,250 MiB",
+ "results": [
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 1218708568,
+   "ram_nonuma": 1375994968,
+   "vram_uma": 0,
+   "vram_nonuma": 288884736
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 682205784,
+   "ram_nonuma": 839492184,
+   "vram_uma": 0,
+   "vram_nonuma": 288884736
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 1240728664,
+   "ram_nonuma": 1398015064,
+   "vram_uma": 0,
+   "vram_nonuma": 333449216
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 704225880,
+   "ram_nonuma": 861512280,
+   "vram_uma": 0,
+   "vram_nonuma": 333449216
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 1328809048,
+   "ram_nonuma": 1486095448,
+   "vram_uma": 0,
+   "vram_nonuma": 525338624
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 792306264,
+   "ram_nonuma": 949592664,
+   "vram_uma": 0,
+   "vram_nonuma": 525338624
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 1217234008,
+   "ram_nonuma": 1374520408,
+   "vram_uma": 0,
+   "vram_nonuma": 288823296
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 680731224,
+   "ram_nonuma": 838017624,
+   "vram_uma": 0,
+   "vram_nonuma": 288823296
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 1234830424,
+   "ram_nonuma": 1392116824,
+   "vram_uma": 0,
+   "vram_nonuma": 333203456
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 698327640,
+   "ram_nonuma": 855614040,
+   "vram_uma": 0,
+   "vram_nonuma": 333203456
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 1305216088,
+   "ram_nonuma": 1462502488,
+   "vram_uma": 0,
+   "vram_nonuma": 524355584
+  },
+  {
+   "model": "qwen2-0.5b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 768713304,
+   "ram_nonuma": 925999704,
+   "vram_uma": 0,
+   "vram_nonuma": 524355584
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 838463696,
+   "ram_nonuma": 995750096,
+   "vram_uma": 0,
+   "vram_nonuma": 314050560
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 171385040,
+   "ram_nonuma": 328671440,
+   "vram_uma": 0,
+   "vram_nonuma": 314050560
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 876212432,
+   "ram_nonuma": 1033498832,
+   "vram_uma": 0,
+   "vram_nonuma": 419432448
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 209133776,
+   "ram_nonuma": 366420176,
+   "vram_uma": 0,
+   "vram_nonuma": 419432448
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 1027207376,
+   "ram_nonuma": 1184493776,
+   "vram_uma": 0,
+   "vram_nonuma": 840960000
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 360128720,
+   "ram_nonuma": 517415120,
+   "vram_uma": 0,
+   "vram_nonuma": 840960000
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 835760336,
+   "ram_nonuma": 993046736,
+   "vram_uma": 0,
+   "vram_nonuma": 313927680
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 168681680,
+   "ram_nonuma": 325968080,
+   "vram_uma": 0,
+   "vram_nonuma": 313927680
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 865398992,
+   "ram_nonuma": 1022685392,
+   "vram_uma": 0,
+   "vram_nonuma": 418940928
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 198320336,
+   "ram_nonuma": 355606736,
+   "vram_uma": 0,
+   "vram_nonuma": 418940928
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 983953616,
+   "ram_nonuma": 1141240016,
+   "vram_uma": 0,
+   "vram_nonuma": 838993920
+  },
+  {
+   "model": "tinyllama-1.1b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 316874960,
+   "ram_nonuma": 474161360,
+   "vram_uma": 0,
+   "vram_nonuma": 838993920
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 1630475672,
+   "ram_nonuma": 1787762072,
+   "vram_uma": 0,
+   "vram_nonuma": 314574848
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 615142680,
+   "ram_nonuma": 772429080,
+   "vram_uma": 0,
+   "vram_nonuma": 314574848
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 1683953048,
+   "ram_nonuma": 1841239448,
+   "vram_uma": 0,
+   "vram_nonuma": 421529600
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 668620056,
+   "ram_nonuma": 825906456,
+   "vram_uma": 0,
+   "vram_nonuma": 421529600
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 1897862552,
+   "ram_nonuma": 2055148952,
+   "vram_uma": 0,
+   "vram_nonuma": 849348608
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 882529560,
+   "ram_nonuma": 1039815960,
+   "vram_uma": 0,
+   "vram_nonuma": 849348608
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 1626543512,
+   "ram_nonuma": 1783829912,
+   "vram_uma": 0,
+   "vram_nonuma": 314329088
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 611210520,
+   "ram_nonuma": 768496920,
+   "vram_uma": 0,
+   "vram_nonuma": 314329088
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 1668224408,
+   "ram_nonuma": 1825510808,
+   "vram_uma": 0,
+   "vram_nonuma": 420546560
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 652891416,
+   "ram_nonuma": 810177816,
+   "vram_uma": 0,
+   "vram_nonuma": 420546560
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 1834947992,
+   "ram_nonuma": 1992234392,
+   "vram_uma": 0,
+   "vram_nonuma": 845416448
+  },
+  {
+   "model": "llama-3.2-1b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 819615000,
+   "ram_nonuma": 976901400,
+   "vram_uma": 0,
+   "vram_nonuma": 845416448
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 1866283256,
+   "ram_nonuma": 2023569656,
+   "vram_uma": 0,
+   "vram_nonuma": 309856256
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 694746360,
+   "ram_nonuma": 852032760,
+   "vram_uma": 0,
+   "vram_nonuma": 309856256
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 1913469176,
+   "ram_nonuma": 2070755576,
+   "vram_uma": 0,
+   "vram_nonuma": 331352064
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 741932280,
+   "ram_nonuma": 899218680,
+   "vram_uma": 0,
+   "vram_nonuma": 331352064
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 2102212856,
+   "ram_nonuma": 2259499256,
+   "vram_uma": 0,
+   "vram_nonuma": 501221376
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 930675960,
+   "ram_nonuma": 1087962360,
+   "vram_uma": 0,
+   "vram_nonuma": 501221376
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 1862842616,
+   "ram_nonuma": 2020129016,
+   "vram_uma": 0,
+   "vram_nonuma": 309733376
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 691305720,
+   "ram_nonuma": 848592120,
+   "vram_uma": 0,
+   "vram_nonuma": 309733376
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 1899706616,
+   "ram_nonuma": 2056993016,
+   "vram_uma": 0,
+   "vram_nonuma": 330860544
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 728169720,
+   "ram_nonuma": 885456120,
+   "vram_uma": 0,
+   "vram_nonuma": 330860544
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 2047162616,
+   "ram_nonuma": 2204449016,
+   "vram_uma": 0,
+   "vram_nonuma": 499255296
+  },
+  {
+   "model": "qwen2-1.5b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 875625720,
+   "ram_nonuma": 1032912120,
+   "vram_uma": 0,
+   "vram_nonuma": 499255296
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 3346056448,
+   "ram_nonuma": 3503342848,
+   "vram_uma": 0,
+   "vram_nonuma": 317196288
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 1159680256,
+   "ram_nonuma": 1316966656,
+   "vram_uma": 0,
+   "vram_nonuma": 317196288
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 3512780032,
+   "ram_nonuma": 3670066432,
+   "vram_uma": 0,
+   "vram_nonuma": 327157760
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 1326403840,
+   "ram_nonuma": 1483690240,
+   "vram_uma": 0,
+   "vram_nonuma": 327157760
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 4070622464,
+   "ram_nonuma": 4227908864,
+   "vram_uma": 0,
+   "vram_nonuma": 465569792
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 1884246272,
+   "ram_nonuma": 2041532672,
+   "vram_uma": 0,
+   "vram_nonuma": 465569792
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 3333276928,
+   "ram_nonuma": 3490563328,
+   "vram_uma": 0,
+   "vram_nonuma": 316704768
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 1146900736,
+   "ram_nonuma": 1304187136,
+   "vram_uma": 0,
+   "vram_nonuma": 316704768
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 3461661952,
+   "ram_nonuma": 3618948352,
+   "vram_uma": 0,
+   "vram_nonuma": 325191680
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 1275285760,
+   "ram_nonuma": 1432572160,
+   "vram_uma": 0,
+   "vram_nonuma": 325191680
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 3891709184,
+   "ram_nonuma": 4048995584,
+   "vram_uma": 0,
+   "vram_nonuma": 457705472
+  },
+  {
+   "model": "gemma-2-2b",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 1705332992,
+   "ram_nonuma": 1862619392,
+   "vram_uma": 0,
+   "vram_nonuma": 457705472
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 2759256736,
+   "ram_nonuma": 2916543136,
+   "vram_uma": 0,
+   "vram_nonuma": 441452544
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "f16",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 366763168,
+   "ram_nonuma": 524049568,
+   "vram_uma": 0,
+   "vram_nonuma": 441452544
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 3366382240,
+   "ram_nonuma": 3523668640,
+   "vram_uma": 0,
+   "vram_nonuma": 564135936
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "f16",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 973888672,
+   "ram_nonuma": 1131175072,
+   "vram_uma": 0,
+   "vram_nonuma": 564135936
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 5823589024,
+   "ram_nonuma": 5980875424,
+   "vram_uma": 0,
+   "vram_nonuma": 1054869504
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "f16",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 3431095456,
+   "ram_nonuma": 3588381856,
+   "vram_uma": 0,
+   "vram_nonuma": 1054869504
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--no-mmap",
+   "ram_uma": 2712070816,
+   "ram_nonuma": 2869357216,
+   "vram_uma": 0,
+   "vram_nonuma": 439977984
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "q8_0",
+   "ctx": 512,
+   "mode": "--mmap",
+   "ram_uma": 319577248,
+   "ram_nonuma": 476863648,
+   "vram_uma": 0,
+   "vram_nonuma": 439977984
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--no-mmap",
+   "ram_uma": 3177638560,
+   "ram_nonuma": 3334924960,
+   "vram_uma": 0,
+   "vram_nonuma": 558237696
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "q8_0",
+   "ctx": 2048,
+   "mode": "--mmap",
+   "ram_uma": 785144992,
+   "ram_nonuma": 942431392,
+   "vram_uma": 0,
+   "vram_nonuma": 558237696
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--no-mmap",
+   "ram_uma": 5045021344,
+   "ram_nonuma": 5202307744,
+   "vram_uma": 0,
+   "vram_nonuma": 1031276544
+  },
+  {
+   "model": "phi-3-mini",
+   "kv_type": "q8_0",
+   "ctx": 8192,
+   "mode": "--mmap",
+   "ram_uma": 2652527776,
+   "ram_nonuma": 2809814176,
+   "vram_uma": 0,
+   "vram_nonuma": 1031276544
+  }
+ ]
+}
