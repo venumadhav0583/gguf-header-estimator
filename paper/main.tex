@@ -8,6 +8,7 @@
 \usepackage{cite}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={A Header-Only, Attention-Aware Memory Estimator for GGUF-Quantized LLMs on Edge Devices},pdfauthor={Venumadhav Kalluru}}
 
 % Numbers from the filled-context experiment (E2). Filled by analysis/final_numbers.py.
 \input{e2numbers}
@@ -35,7 +36,7 @@ Edge AI, on-device LLMs, GGUF, memory estimation, KV cache, grouped-query attent
 \section{Introduction}
 Quantized language models now run on laptops and small edge servers through llama.cpp~\cite{llamacpp} and the tools built on it, nearly all of which load the GGUF container format~\cite{ggufspec}. A user choosing a checkpoint for a device with 8\,GB of memory has to decide whether it fits at the intended context length. The runtime reports its allocations, but only after the file is on disk. On a 100\,Mbps link a 20\,GB checkpoint takes about half an hour to arrive.
 
-The GGUF header already holds the quantities that set most of the memory budget: tensor sizes through the file length, and the attention geometry that sizes the KV cache. The question this paper answers is empirical. How accurate is a header-only estimate against measured peak resident memory, which of its terms matter, and where does it fail? Header-only inspection is not new. GPUStack's gguf-parser~\cite{ggufparser} and the \texttt{@huggingface/gguf} library~\cite{hfgguf} both read remote GGUF metadata without downloading weights, and gguf-parser also estimates llama.cpp memory. Our contribution is the measured account that, to our knowledge, these tools have not published:
+The GGUF header already holds the quantities that set most of the memory budget: tensor sizes through the file length, and the attention geometry that sizes the KV cache. The question this paper answers is empirical. How accurate is a header-only estimate against measured peak resident memory, which of its terms matter, and where does it fail? Header-only inspection is not new. GPUStack's gguf-parser~\cite{ggufparser} and the \texttt{@huggingface/gguf} library~\cite{hfgguf} both read remote GGUF metadata without downloading weights, and gguf-parser and Kolosal's model-memory-calculator~\cite{kolosal} also estimate llama.cpp memory. Our contribution is the measured account that, to our knowledge, these tools have not published:
 \begin{enumerate}
 \item An additive estimator whose KV term uses the stored head widths, the cache type's block size and, for Gemma-2, the windowed layers. Its predicted KV cache matches llama.cpp's own allocation log in all 18 configurations we checked (\S\ref{sec:method}).
 \item Out-of-sample accuracy on 36 configurations with leave-one-model-out (LOMO) calibration, a worst-case under-prediction and the safety margin it implies, an ablation, and a direct comparison with gguf-parser (\S\ref{sec:e1}).
@@ -46,9 +47,9 @@ The GGUF header already holds the quantities that set most of the memory budget:
 \label{sec:related}
 Weight quantization (GPTQ~\cite{gptq}, AWQ~\cite{awq}) sets the file size, which is the largest term at short context. At long context the KV cache dominates, and grouped-query attention (GQA)~\cite{gqa} and multi-query attention (MQA)~\cite{mqa} shrink it by the ratio of query heads to KV heads. Gemma-2 alternates full and sliding-window attention layers~\cite{gemma2}, so part of its cache stops growing with context. PagedAttention~\cite{vllm} manages the cache dynamically for batched serving, which we do not model.
 
-Memory calculators fall into three groups. The Hugging Face model memory calculator~\cite{hfcalc} multiplies parameter count by bytes per parameter and has no KV term. llama.cpp prints exact allocations once a model is loaded. gguf-parser~\cite{ggufparser} reads a remote header, accounts for KV heads, cache types and batch sizes, and reports RAM and VRAM estimates with many runtime options. The \texttt{@huggingface/gguf} library~\cite{hfgguf} parses remote metadata but does not estimate memory. We therefore do not claim a capability these tools lack. We compare against gguf-parser directly in \S\ref{sec:e1} and report how close a minimal, calibrated form comes to measured peaks.
+Several memory calculators exist. The Hugging Face model memory calculator~\cite{hfcalc} multiplies parameter count by bytes per parameter and has no KV term. llama.cpp prints exact allocations once a model is loaded. gguf-parser~\cite{ggufparser} reads a remote header, accounts for KV heads, cache types and batch sizes, and reports RAM and VRAM estimates with many runtime options. The \texttt{@huggingface/gguf} library~\cite{hfgguf} parses remote metadata but does not estimate memory. Kolosal's model-memory-calculator~\cite{kolosal} also reads the header by range request. It sizes the KV cache as hidden size times layers times context, scaled by the ratio of KV heads to heads, and adds 0.02\,GB per billion parameters plus 0.15\,GB, which it describes as a fit to llama.cpp deployments. That cache formula assumes a head width of $d_{\mathrm{model}}/n_{\mathrm{heads}}$, which is wrong for Gemma-2 (\S\ref{sec:est}), and the tool reports no comparison with measured peaks. We therefore do not claim a capability these tools lack. We compare against gguf-parser directly in \S\ref{sec:e1} and report how close a minimal, calibrated form comes to measured peaks.
 
-\section{Estimator}
+\section{Estimator}\label{sec:est}
 \label{sec:method}
 \subsection{Memory decomposition}
 For one sequence on one backend we write peak resident memory as
@@ -179,6 +180,7 @@ The author used an AI assistant to help write analysis scripts and edit the text
 \bibitem{ggufspec} ggml contributors, ``GGUF file format specification,'' 2024. [Online]. Available: \url{https://github.com/ggml-org/ggml/blob/master/docs/gguf.md}
 \bibitem{ggufparser} GPUStack, ``gguf-parser-go: Review/check GGUF files and estimate the memory usage,'' v0.26.4, 2026. [Online]. Available: \url{https://github.com/gpustack/gguf-parser-go}
 \bibitem{hfgguf} Hugging Face, ``@huggingface/gguf: A GGUF parser that works on remotely hosted files,'' 2024. [Online]. Available: \url{https://github.com/huggingface/huggingface.js/tree/main/packages/gguf}
+\bibitem{kolosal} Kolosal AI, ``model-memory-calculator: GGUF and LLM VRAM calculator,'' 2025. [Online]. Available: \url{https://github.com/KolosalAI/model-memory-calculator}
 \bibitem{hfcalc} Hugging Face, ``Model memory calculator,'' 2023. [Online]. Available: \url{https://huggingface.co/spaces/hf-accelerate/model-memory-usage}
 \bibitem{gqa} J.~Ainslie \emph{et al.}, ``GQA: Training generalized multi-query transformer models from multi-head checkpoints,'' in \emph{Proc. EMNLP}, 2023.
 \bibitem{mqa} N.~Shazeer, ``Fast transformer decoding: One write-head is all you need,'' arXiv:1911.02150, 2019.
